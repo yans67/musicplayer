@@ -15,10 +15,13 @@
         <!-- Pages -->
         <f7-pages>
           <f7-page>
-            <!-- Material Theme Navbar -->
-            <f7-navbar v-if="$theme.material">
-              <f7-nav-center sliding>Framework7</f7-nav-center>
-            </f7-navbar>
+            <!-- Material Theme Navbar  暂时不知道有什么作用-->
+            <!-- <f7-navbar v-if="$theme.material">
+              <f7-nav-center sliding>音乐播放器</f7-nav-center>
+            </f7-navbar> -->
+
+        
+
           </f7-page>
         </f7-pages>
       </f7-view>
