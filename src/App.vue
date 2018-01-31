@@ -20,7 +20,6 @@
 
               </f7-list-button>
             </f7-list>
-
             <div class="playBtns">
               <f7-button class="iconfont normal click icon-shangyishoushangyige" @click="preClick"></f7-button>
               <f7-button :class="'iconfont large click ' + playPause" @click="playPauseClick"></f7-button>
@@ -53,6 +52,9 @@
   margin-right: 55px;
   min-width: 44px;
   display: inline-block;
+  box-shadow: 1px 1px 2px #888888;
+  background-color:  rgba(0, 0, 0, 0);
+  
 }
 .playBtns {
   display: flex;
@@ -68,13 +70,16 @@
   padding: 0px;
   min-width: 64px;
   display: inline-block;
+  box-shadow: 1px 1px 2px #888888;
 }
 .large:active {
-  background-color: #ffffff;
+  background-color:  rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 .normal:active {
-  background-color: #ffffff;
-  /* background: skyblue; */
+  color: deepskyblue;
+  background-color:  rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 </style>
 
