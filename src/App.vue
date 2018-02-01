@@ -34,6 +34,8 @@
               <source title="骄傲的少年" data-img="http://p1.music.126.net/Brn39jwEDNPVV6pNWcv_rA==/1391981724588577.jpg" url="http://link.hhtjim.com/163/408332757.mp3">
               <source title="岁月神偷" data-img="http://p1.music.126.net/54wdQi_3rpjreY2oo2jb7w==/5998935441219557.jpg" url="http://link.hhtjim.com/163/28285910.mp3">
             </audio>
+
+            
           </f7-page>
         </f7-pages>
       </f7-view>
@@ -52,9 +54,11 @@
   margin-right: 55px;
   min-width: 44px;
   display: inline-block;
-  box-shadow: 1px 1px 2px #888888;
-  background-color:  rgba(0, 0, 0, 0);
-  
+   /* background-color: rgba(101,0,0,1); */
+  /* box-shadow: 1px 1px 2px #888888; */
+  background-color:  rgba(0, 0, 0, );
+  /* background: #203;  */
+  /* color: blue; */
 }
 .playBtns {
   display: flex;
@@ -70,16 +74,17 @@
   padding: 0px;
   min-width: 64px;
   display: inline-block;
-  box-shadow: 1px 1px 2px #888888;
 }
 .large:active {
   background-color:  rgba(0, 0, 0, 0);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  text-shadow: 0 0 .1em, 0 0 .3em;
+  
 }
 .normal:active {
-  color: deepskyblue;
-  background-color:  rgba(0, 0, 0, 0);
+   background-color:  rgba(0, 0, 0, 0);
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  text-shadow: 0 0 .1em, 0 0 .3em;
 }
 </style>
 
