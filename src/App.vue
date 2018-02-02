@@ -27,7 +27,8 @@
               <f7-button class="iconfont normal click icon-xiayigexiayishou" @click="nextPlay()"></f7-button>
             </div>
 
-            <audio :src="currentPlay" controls="" autoplay="" :ref="player" preload="true"></audio>
+            <!-- <audio :src="currentPlay" controls="" autoplay="" :ref="player" preload="true"></audio> -->
+            <audio :src="currentPlay" :loop="loop" controls="" autoplay=""  ref="player" preload="false"></audio>
 
           </f7-page>
         </f7-pages>
@@ -43,6 +44,7 @@ export default {
       currentPlay: '', // 当前正在播放
       player: '', // audio dom
       playIndex:0,
+      loop:false, // 默认不循环
       list: [
         {
           name: '你在终点等我',
@@ -86,28 +88,31 @@ export default {
       // this.player.play()
     },
 
-    // note:播放，上一首，下一首的方法
-    // 播放暂停按钮
+    // note:播放暂停，上一首，下一首的方法
     pausePlay() {
       this.playPause =
         this.playPause === 'icon-weibiaoti519'
           ? 'icon-bofang'
           : 'icon-weibiaoti519'
-      console.log(this.player.playing)
+      console.log(this.player.playing);
+      debugger
+      this.player.ended ? this.player.pause() : this.player.play();
     },
     prePlay(index) {
       console.log('pre')
-      this.currentPlay = this.list[--playIndex].url
+      this.currentPlay = this.list[this.playIndex].url
       
     },
     nextPlay(index) {
       console.log('next')
-      this.currentPlay = this.list[++playIndex].url
+      this.currentPlay = this.list[++this.playIndex].url
       
     }
   },
-  mounted(){
-    this.currentPlay = this.list[playIndex].url;
+  mounted(){ 
+    // 装载 vue 实例后自动播放
+    this.player=this.$refs.player;
+    // this.currentPlay = this.list[this.playIndex].url;
   }
 }
 </script>
