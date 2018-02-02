@@ -6,14 +6,14 @@
     <f7-statusbar></f7-statusbar>
     <!-- Main Views -->
     <f7-views>
-      <f7-view id="main-view" navbar-through :dynamic-navbar="true" main>
+      <!-- <f7-view id="main-view" navbar-through :dynamic-navbar="true" main> -->
         <!-- iOS Theme Navbar -->
-        <f7-navbar v-if="$theme.ios" title="test"></f7-navbar>
+        <!-- <f7-navbar v-if="$theme.ios" title="苹果样式 title"></f7-navbar> -->
         <!-- Pages -->
         <f7-pages>
           <f7-page>
             <!-- Material Theme Navbar  暂时不知道有什么作用-->
-            <!-- <f7-navbar v-if="$theme.material" title="test"></f7-navbar> -->
+            <!-- <f7-navbar v-if="$theme.material" title="安卓样式 title"></f7-navbar> -->
             <f7-list v-for="(item,index) in list" :key="item.name">
               <!-- <f7-list-item :title=item.name @click= "songClick(index)"></f7-list-item> -->
               <f7-list-button @click="listPlay(index)">{{item.name}}
@@ -28,7 +28,7 @@
             </div>
 
             <!-- <audio :src="currentPlay" controls="" autoplay="" :ref="player" preload="true"></audio> -->
-            <audio :src="currentPlay" :loop="loop" controls="" autoplay=""  ref="player" preload="false"></audio>
+            <audio :src="currentPlay" :loop="loop" autoplay controls ref="player" preload="false"></audio>
 
           </f7-page>
         </f7-pages>
@@ -41,17 +41,12 @@
 export default {
   data() {
     return {
-      currentPlay: '', // 当前正在播放
-      player: '', // audio dom
-      playIndex:0,
+      currentPlay: '', // 当前正在播放的资源，修改该资源即可播放，因为加了 autoplay 属性
+      player: '', // audio Dom
+      playIndex:0, // 播放歌曲下标
       loop:false, // 默认不循环
+      playPause: 'icon-bofang', // 播放暂停的样式
       list: [
-        {
-          name: '你在终点等我',
-          url: 'http://oc1475jft.bkt.clouddn.com/baizhouzhiye.mp3',
-          image:
-            'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
-        },
         {
           name: '白昼之夜',
           url: 'http://oc1475jft.bkt.clouddn.com/baizhouzhiye.mp3',
@@ -66,52 +61,42 @@ export default {
         },
         {
           name: '那就这样吧',
-          url: 'http://link.hhtjim.com/163/28949843.mp3',
+          url: 'http://oc1475jft.bkt.clouddn.com/baizhouzhiye.mp3',
           image:
             'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
         },
          {
           name: '骄傲的少年',
-          url: 'http://link.hhtjim.com/163/408332757.mp3',
+          url: 'http://oc1475jft.bkt.clouddn.com/gaobaiqiqiu.mp3',
           image:
             'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
         }
       ],
-      playPause: 'icon-bofang'
     }
   },
   methods: {
+    // note:点击列表播放，播放暂停，上一首，下一首
     listPlay(index) {
       this.currentPlay = this.list[index].url
-      console.log(this.currentPlay)
-      // debugger
-      // this.player.play()
     },
-
-    // note:播放暂停，上一首，下一首的方法
     pausePlay() {
       this.playPause =
         this.playPause === 'icon-weibiaoti519'
           ? 'icon-bofang'
-          : 'icon-weibiaoti519'
-      console.log(this.player.playing);
-      debugger
-      this.player.ended ? this.player.pause() : this.player.play();
+          : 'icon-weibiaoti519';
+      console.log(this.player.pause);
+      this.player.paused ? this.player.play() : this.player.pause();
     },
     prePlay(index) {
-      console.log('pre')
-      this.currentPlay = this.list[this.playIndex].url
-      
+      this.currentPlay = this.list[--this.playIndex].url    
     },
     nextPlay(index) {
-      console.log('next')
       this.currentPlay = this.list[++this.playIndex].url
-      
     }
   },
   mounted(){ 
-    // 装载 vue 实例后自动播放
     this.player=this.$refs.player;
+    // 装载 vue 实例后自动播放
     // this.currentPlay = this.list[this.playIndex].url;
   }
 }
