@@ -7,31 +7,33 @@
     <!-- Main Views -->
     <f7-views>
       <!-- <f7-view id="main-view" navbar-through :dynamic-navbar="true" main> -->
-        <!-- iOS Theme Navbar -->
-        <!-- <f7-navbar v-if="$theme.ios" title="苹果样式 title"></f7-navbar> -->
-        <!-- Pages -->
-        <f7-pages>
-          <f7-page>
-            <!-- Material Theme Navbar  暂时不知道有什么作用-->
-            <!-- <f7-navbar v-if="$theme.material" title="安卓样式 title"></f7-navbar> -->
-            <f7-list v-for="(item,index) in list" :key="item.name">
-              <!-- <f7-list-item :title=item.name @click= "songClick(index)"></f7-list-item> -->
-              <f7-list-button @click="listPlay(index)">{{item.name}}
+      <!-- iOS Theme Navbar -->
+      <!-- <f7-navbar v-if="$theme.ios" title="苹果样式 title"></f7-navbar> -->
+      <!-- Pages -->
+      <f7-pages>
+        <f7-page>
+          <!-- Material Theme Navbar  暂时不知道有什么作用-->
+          <!-- <f7-navbar v-if="$theme.material" title="安卓样式 title"></f7-navbar> -->
+          <f7-list v-for="(item,index) in list" :key="item.name">
+            <!-- <f7-list-item :title=item.name @click= "songClick(index)"></f7-list-item> -->
+            <f7-list-button @click="manualPlay(index)">{{item.name}}
 
-              </f7-list-button>
-            </f7-list>
+            </f7-list-button>
+          </f7-list>
 
-            <div class="playBtns">
-              <f7-button class="iconfont normal click icon-shangyishoushangyige" @click="prePlay()"></f7-button>
-              <f7-button :class="'iconfont large click ' + playPause" @click="pausePlay"></f7-button>
-              <f7-button class="iconfont normal click icon-xiayigexiayishou" @click="nextPlay()"></f7-button>
-            </div>
+          <div class="playBtns">
+            <f7-button class="iconfont normal click icon-shangyishoushangyige" @click="prePlay()"></f7-button>
+            <f7-button :class="'iconfont large click ' + playStyle" @click="pausePlay"></f7-button>
+            <f7-button class="iconfont normal click icon-xiayigexiayishou" @click="nextPlay()"></f7-button>
+            <f7-button class="iconfont normal click icon-xiayigexiayishou" @click="loopPlay()"></f7-button>
 
-            <!-- <audio :src="currentPlay" controls="" autoplay="" :ref="player" preload="true"></audio> -->
-            <audio :src="currentPlay" :loop="loop" autoplay controls ref="player" preload="false"></audio>
+          </div>
 
-          </f7-page>
-        </f7-pages>
+          <!-- <audio :src="url" controls="" autoplay="" :ref="player" preload="true"></audio> -->
+          <audio :src="url" v-model="url" :loop="loop" autoplay controls ref="player" preload></audio>
+
+        </f7-page>
+      </f7-pages>
       </f7-view>
     </f7-views>
   </div>
@@ -41,11 +43,11 @@
 export default {
   data() {
     return {
-      currentPlay: '', // 当前正在播放的资源，修改该资源即可播放，因为加了 autoplay 属性
+      url: '', // 当前正在播放的资源，修改该资源即可播放，因为加了 autoplay 属性
       player: '', // audio Dom
-      playIndex:0, // 播放歌曲下标
-      loop:false, // 默认不循环
-      playPause: 'icon-bofang', // 播放暂停的样式
+      playIndex: 0, // 播放歌曲下标
+      loop: false, // 默认不循环
+      playStyle: 'icon-bofang', // 播放暂停的样式
       list: [
         {
           name: '白昼之夜',
@@ -65,39 +67,56 @@ export default {
           image:
             'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
         },
-         {
+        {
           name: '骄傲的少年',
           url: 'http://oc1475jft.bkt.clouddn.com/gaobaiqiqiu.mp3',
           image:
             'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
         }
-      ],
+      ]
     }
   },
   methods: {
     // note:点击列表播放，播放暂停，上一首，下一首
-    listPlay(index) {
-      this.currentPlay = this.list[index].url
+    manualPlay(index) {
+      this.url = this.list[index].url
+      this.playStyle = 'icon-weibiaoti519'
     },
     pausePlay() {
-      this.playPause =
-        this.playPause === 'icon-weibiaoti519'
-          ? 'icon-bofang'
-          : 'icon-weibiaoti519';
-      console.log(this.player.pause);
-      this.player.paused ? this.player.play() : this.player.pause();
+      this.url = this.list[this.playIndex].url
+      // 安卓状态为4
+      // console.log(this.player.readyState)
+      if (this.player.paused && this.player.readyState === 4) {
+        this.player
+          .play()
+          .then(() => {
+            this.playStyle = 'icon-weibiaoti519'
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else {
+        this.player.pause()
+        this.playStyle = 'icon-bofang'
+      }
     },
-    prePlay(index) {
-      this.currentPlay = this.list[--this.playIndex].url    
+    prePlay() {
+      this.playIndex =
+        this.playIndex === 0 ? this.list.length - 1 : this.playIndex - 1
+      this.manualPlay(this.playIndex)
     },
-    nextPlay(index) {
-      this.currentPlay = this.list[++this.playIndex].url
+    nextPlay() {
+      this.playIndex =
+        this.playIndex === this.list.length - 1 ? 0 : this.playIndex + 1
+      this.manualPlay(this.playIndex)
+    },
+
+    loopPlay() {
+      this.loop = !this.loop
     }
   },
-  mounted(){ 
-    this.player=this.$refs.player;
-    // 装载 vue 实例后自动播放
-    // this.currentPlay = this.list[this.playIndex].url;
+  mounted() {
+    this.player = this.$refs.player
   }
 }
 </script>
