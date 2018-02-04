@@ -8,32 +8,20 @@
     <f7-views>
       <!-- <f7-view id="main-view" navbar-through :dynamic-navbar="true" main> -->
       <!-- iOS Theme Navbar -->
-      <!-- <f7-navbar v-if="$theme.ios" title="苹果样式 title"></f7-navbar> -->
-      <!-- Pages -->
-      <f7-pages>
-        <f7-page>
-          <!-- Material Theme Navbar  暂时不知道有什么作用-->
-          <!-- <f7-navbar v-if="$theme.material" title="安卓样式 title"></f7-navbar> -->
-          <f7-list v-for="(item,index) in list" :key="item.name">
-            <!-- <f7-list-item :title=item.name @click= "songClick(index)"></f7-list-item> -->
-            <f7-list-button @click="manualPlay(index)">{{item.name}}
+      <!-- <f7-navbar v-if="$theme.ios"></f7-navbar> -->
+      <f7-view id="main-view">
+        <f7-navbar v-if="$theme.ios"></f7-navbar>
 
-            </f7-list-button>
-          </f7-list>
+        <!-- section:标签页 -->
+        <f7-navbar v-if="$theme.material" >
+          <f7-toolbar tabbar>
+            <f7-link href="/singerList/">歌手</f7-link>
+            <f7-link href="/playList/">歌曲</f7-link>
+          </f7-toolbar>
+        </f7-navbar>
 
-          <div class="playBtns">
-            <f7-button class="iconfont normal click icon-shangyishoushangyige" @click="prePlay()"></f7-button>
-            <f7-button :class="'iconfont large click ' + playStyle" @click="pausePlay"></f7-button>
-            <f7-button class="iconfont normal click icon-xiayigexiayishou" @click="nextPlay()"></f7-button>
-            <f7-button class="iconfont normal click icon-xiayigexiayishou" @click="loopPlay()"></f7-button>
+        <!-- section:播放按钮 -->
 
-          </div>
-
-          <!-- <audio :src="url" controls="" autoplay="" :ref="player" preload="true"></audio> -->
-          <audio :src="url" v-model="url" :loop="loop" autoplay controls ref="player" preload></audio>
-
-        </f7-page>
-      </f7-pages>
       </f7-view>
     </f7-views>
   </div>
@@ -82,6 +70,9 @@ export default {
       this.url = this.list[index].url
       this.playStyle = 'icon-weibiaoti519'
     },
+    onRefresh() {
+      console.log('onRefresh')
+    },
     pausePlay() {
       this.url = this.list[this.playIndex].url
       // 安卓状态为4
@@ -123,6 +114,11 @@ export default {
 
 
 <style>
+/* .tabbar a.link, .tabbar a.tab-link {
+  color: black;
+  font: 1.2em sans-serif;
+} */
+
 .normal {
   font-size: 44px;
   width: 44px;
@@ -139,7 +135,7 @@ export default {
   /* background: #203;  */
   /* color: blue; */
 }
-.playBtns {
+.playPanel {
   display: flex;
   justify-content: center;
   align-items: center;

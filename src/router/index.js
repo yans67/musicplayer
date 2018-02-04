@@ -1,16 +1,16 @@
-import about from "../components/about.vue";
-import login from "../components/login.vue";
+import singerList from "../components/singerList.vue";
+import playList from "../components/playList.vue";
 
 export default [
   {
-    path: '/about/',
-    name:'about',
-    component: about
+    path: '/playList/',
+    name:'playList',
+    component: playList
   },
   {
-    path: '/login/',
-    name:'login',
-    component: login
+    path: '/singerList/',
+    name:'singerList',
+    component: singerList
   } 
 ]
 
