@@ -1,29 +1,63 @@
 <template>
   <!-- App -->
   <div id="app">
+    <!-- Views -->
+    <div class="views">
+      <div class="view view-main">
 
-    <!-- Statusbar -->
-    <f7-statusbar></f7-statusbar>
-    <!-- Main Views -->
-    <f7-views>
-      <!-- <f7-view id="main-view" navbar-through :dynamic-navbar="true" main> -->
-      <!-- iOS Theme Navbar -->
-      <!-- <f7-navbar v-if="$theme.ios"></f7-navbar> -->
-      <f7-view id="main-view">
-        <f7-navbar v-if="$theme.ios"></f7-navbar>
+        <div class="navbar">
+          <div style="height:0px" class="navbar-inner">
+            <!-- Sub navbar -->
+            <div style="height:64px" class="subnavbar">
+              <div class="buttons-row">
+                <a href="#tab1" class="button tab-link active">歌手</a>
+                <a href="#tab2" class="button tab-link">歌曲</a>
+                <a href="#tab3" class="button tab-link">收藏</a>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <!-- section:标签页 -->
-        <f7-navbar v-if="$theme.material" >
-          <f7-toolbar tabbar>
-            <f7-link href="/singerList/">歌手</f7-link>
-            <f7-link href="/playList/">歌曲</f7-link>
-          </f7-toolbar>
-        </f7-navbar>
+    
 
-        <!-- section:播放按钮 -->
+        <div class="pages navbar-through">
+           
+          <div data-page="home" class="page with-subnavbar" style="height:500px">
+          
+            <div class="page-content hide-bars-on-scroll">
+              <div class="tabs">
+                <div id="tab1" class="tab active">
+                  <div class="content-block">
+                    <p>Lorem ipsum dolor ...</p>
+                    <p>In sed augue non ...</p>
+                  </div>
+                </div>
+                <div id="tab2" class="tab">
+                  <div class="content-block">
+                    <p>Donec iaculis ...</p>
+                    <p>Curabitur egestas, mi ...</p>
+                    <p>Donec iaculis posuere ...</p>
+                  </div>
+                </div>
+                <div id="tab3" class="tab">
+                  <div class="content-block">
+                    <p>Etiam non interdum erat...</p>
+                    <p>Duis ac semper risus. Suspendisse...</p>
+                    <p>Etiam non interdum erat...</p>
+                    <p>Duis ac semper risus. Suspendisse...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-      </f7-view>
-    </f7-views>
+            <div class="playPanel">
+          </div>
+          </div>
+        </div>
+
+       
+      </div>
+    </div>
   </div>
 </template>
 
@@ -136,6 +170,9 @@ export default {
   /* color: blue; */
 }
 .playPanel {
+  height: 119px;
+  width: 100%;
+  background: blue;
   display: flex;
   justify-content: center;
   align-items: center;
