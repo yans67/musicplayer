@@ -4,10 +4,9 @@
     <!-- Views -->
     <div class="views">
       <div class="view view-main">
-
+        <!-- navbar -->
         <div class="navbar">
           <div style="height:0px" class="navbar-inner">
-            <!-- Sub navbar -->
             <div class="subnavbar music-nav">
               <div class="buttons-row">
                 <a href="#tab1" class="button tab-link active">1</a>
@@ -16,91 +15,96 @@
               </div>
             </div>
           </div>
+          <!-- navbar end -->
         </div>
-
+        <!-- pages -->
         <div class="pages">
           <div data-page="home" class="page pad-top-nav" :style="playPanelHeight">
-
             <div class="page-content">
+              <!-- tabs -->
               <div class="tabs">
-
                 <div id="tab1" class="tab active">
-
                   <div class="list-block contacts-block">
-                     <ul>
-                    <li>
-                      <div class="item-content">
-                        <div class="item-inner">
-                          <div class="item-title">Aaron </div>
+                    <ul>
+                      <a @click.stop="manualPlay(index)" class="item-link item-content" v-for="(item,index) in list" :key="index">
+                        <div class="item-media">
+                          <img class="music-singer-icon" :src="item.image">
+                          </img>
                         </div>
-                      </div>
-                    </li>
-                     </ul>
+                        <div class="item-inner">
+                          <div class="item-title">{{item.name}}</div>
+                          <div class="item-after">
+                            <a @click.stop="deleteItem(index)" class="iconfont icon-delete small"></a>
+                          </div>
+                        </div>
+                      </a>
+                    </ul>
                   </div>
-
                 </div>
-
                 <div id="tab2" class="tab">
-                    <p>Donec iaculis ...</p>
-                    <p>Curabitur egestas, mi ...</p>
-                    <p>Donec iaculis posuere ...</p>
-                </div>
 
+                </div>
                 <div id="tab3" class="tab">
-                    <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
-                    <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
-                     <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
-                    <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
-                     <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
-                    <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
-                     <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
-                    <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
-                     <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
-                    <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
-                     <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
-                    <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
-                     <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
-                    <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
-                     <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
-                    <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
-                     <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
-                    <p>Etiam non interdum erat...</p>
-                    <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
+                  <p>Etiam non interdum erat...</p>
+                  <p>Duis ac semper risus. Suspendisse...</p>
                 </div>
-
+                <!-- tabs end-->
               </div>
             </div>
 
-            <div class="playPanel">
-              <a href="#" class="iconfont icon-loop-r small"></a>
-              <a href="#" class="iconfont icon-pre normal"></a>
-              <a href="#" class="iconfont icon-play large"></a>
-              <a href="#" class="iconfont icon-next normal"></a>
-              <a href="#" class="iconfont icon-marked small"></a>
+            <div class="playPanel" hidden>
+              <a @click="loopPlay()" :class="'iconfont ' + icon_loop_state + ' small'"></a>
+              <a @click="prePlay()" class="iconfont icon-pre normal"></a>
+              <a @click="pausePlay()" :class="'iconfont ' + paly_state + ' large'"></a>
+              <a @click="nextPlay()" class="iconfont icon-next normal"></a>
+              <a @click="mark()" :class="'iconfont ' + icon_mark_state + ' small'"></a>
             </div>
 
+            <audio :src="url" ref="player" v-model="url" :loop="loop" autoplay></audio>
+            <!-- <audio :src="url" ref="player" v-model="url" :loop="loop" :ended="test('ended')" autoplay controls></audio> -->
+
+            <!-- pages end -->
           </div>
         </div>
-
+        <!-- view end -->
       </div>
+      <!-- Views end -->
     </div>
+    <!-- App end -->
   </div>
 </template>
 
@@ -112,12 +116,86 @@ export default {
       player: '', // audio Dom
       playIndex: 0, // 播放歌曲下标
       loop: false, // 默认不循环
-      playStyle: 'icon-bofang', // 播放暂停的样式
+      paly_state: 'icon-play', // 播放暂停的样式，默认播放状态
+      icon_mark_state: 'icon-mark', // 收藏样式，默认不收藏
+      icon_loop_state: 'icon-order', // 是否循环，默认顺序
       playPanelHeight: {
         // 音乐播放面板的高度
         height: window.innerHeight - 119 + 'px'
       },
       list: [
+        {
+          name: '白昼之夜',
+          url: 'http://oc1475jft.bkt.clouddn.com/baizhouzhiye.mp3',
+          image:
+            'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
+        },
+        {
+          name: '告白气球',
+          url: 'http://oc1475jft.bkt.clouddn.com/gaobaiqiqiu.mp3',
+          image:
+            'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
+        },
+        {
+          name: '那就这样吧',
+          url: 'http://oc1475jft.bkt.clouddn.com/baizhouzhiye.mp3',
+          image:
+            'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
+        },
+        {
+          name: '骄傲的少年',
+          url: 'http://oc1475jft.bkt.clouddn.com/gaobaiqiqiu.mp3',
+          image:
+            'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
+        },
+        {
+          name: '白昼之夜',
+          url: 'http://oc1475jft.bkt.clouddn.com/baizhouzhiye.mp3',
+          image:
+            'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
+        },
+        {
+          name: '告白气球',
+          url: 'http://oc1475jft.bkt.clouddn.com/gaobaiqiqiu.mp3',
+          image:
+            'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
+        },
+        {
+          name: '那就这样吧',
+          url: 'http://oc1475jft.bkt.clouddn.com/baizhouzhiye.mp3',
+          image:
+            'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
+        },
+        {
+          name: '骄傲的少年',
+          url: 'http://oc1475jft.bkt.clouddn.com/gaobaiqiqiu.mp3',
+          image:
+            'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
+        },
+        {
+          name: '白昼之夜',
+          url: 'http://oc1475jft.bkt.clouddn.com/baizhouzhiye.mp3',
+          image:
+            'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
+        },
+        {
+          name: '告白气球',
+          url: 'http://oc1475jft.bkt.clouddn.com/gaobaiqiqiu.mp3',
+          image:
+            'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
+        },
+        {
+          name: '那就这样吧',
+          url: 'http://oc1475jft.bkt.clouddn.com/baizhouzhiye.mp3',
+          image:
+            'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
+        },
+        {
+          name: '骄傲的少年',
+          url: 'http://oc1475jft.bkt.clouddn.com/gaobaiqiqiu.mp3',
+          image:
+            'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
+        },
         {
           name: '白昼之夜',
           url: 'http://oc1475jft.bkt.clouddn.com/baizhouzhiye.mp3',
@@ -148,8 +226,10 @@ export default {
   methods: {
     // note:点击列表播放，播放暂停，上一首，下一首
     manualPlay(index) {
+      console.log(index)
       this.url = this.list[index].url
-      this.playStyle = 'icon-weibiaoti519'
+      this.playIndex = index
+      this.paly_state = 'icon-pause'
     },
     onRefresh() {
       console.log('onRefresh')
@@ -162,14 +242,14 @@ export default {
         this.player
           .play()
           .then(() => {
-            this.playStyle = 'icon-weibiaoti519'
+            this.paly_state = 'icon-pause'
           })
           .catch(err => {
             console.log(err)
           })
       } else {
         this.player.pause()
-        this.playStyle = 'icon-bofang'
+        this.paly_state = 'icon-play'
       }
     },
     prePlay() {
@@ -184,11 +264,66 @@ export default {
     },
 
     loopPlay() {
-      this.loop = !this.loop
+      this.loop = false
+      if (this.icon_loop_state === 'icon-order') {
+        this.icon_loop_state = 'icon-loop'
+        this.loop = true
+        return
+      }
+      if (this.icon_loop_state === 'icon-loop') {
+        this.icon_loop_state = 'icon-random'
+        return
+      }
+      if (this.icon_loop_state === 'icon-random') {
+        this.icon_loop_state = 'icon-order'
+        return
+      }
+    },
+    // 播放控制，监听随机、顺序、重复的播放顺序
+    playControl() {
+      this.player.addEventListener(
+        'ended',
+        () => {
+          if (this.icon_loop_state === 'icon-order') {
+            this.nextPlay()
+          } else if (this.icon_loop_state === 'icon-order') {
+          }
+        },
+        false
+      )
+    },
+
+    mark() {
+      console.log('mark')
+      this.icon_mark_state =
+        this.icon_mark_state === 'icon-mark' ? 'icon-marked' : 'icon-mark'
+    },
+    randomPlay() {},
+    //生成从minNum到maxNum的随机数
+    randomNum(minNum, maxNum) {
+      switch (arguments.length) {
+        case 1:
+          return parseInt(Math.random() * minNum + 1, 10)
+          break
+        case 2:
+          return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10)
+          break
+        default:
+          return 0
+          break
+      }
+    },
+    deleteItem(index) {
+      this.list.splice(index, 1)
+    },
+    test(test) {
+      if (this.player.readyState === 4) {
+      }
     }
   },
   mounted() {
     this.player = this.$refs.player
+    this.playControl()
   }
 }
 </script>
@@ -269,5 +404,16 @@ export default {
 .music-nav {
   height: 64px;
   background: #f0f4f9;
+}
+
+.music-singer-icon {
+  height: 35px;
+  width: 35px;
+}
+/* 注意，当“item-inner”在“item-link”中时，会有额外的右内边距（right padding）和chevron icon */
+/* 屏蔽 （right padding）和chevron icon */
+.list-block .item-link .item-inner {
+  background: none;
+  padding-right: 0px;
 }
 </style>

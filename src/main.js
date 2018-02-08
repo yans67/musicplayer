@@ -26,7 +26,7 @@ new Vue({
   framework7: {
     root: '#app',
     // /* Uncomment to enable Material theme: */
-    material: true,
+    // material: false,
     routes: router,
 
   },
