@@ -34,16 +34,24 @@
                         <div class="item-inner">
                           <div class="item-title">{{item.name}}</div>
                           <div class="item-after">
-                            <a @click.stop="deleteItem(index)" class="iconfont icon-delete small"></a>
+                            <a @click.stop="deleteItem(index)" class="iconfont icon-delete small confirm-ok"></a>
                           </div>
                         </div>
                       </a>
                     </ul>
                   </div>
                 </div>
-                <div id="tab2" class="tab">
 
+                <div id="tab2" class="tab">
+                  <div class="page-content">
+                    <div class="block">
+                      <p>
+                        <a ref="ac" class="ac-1" href="#">One group, three buttons</a>
+                      </p>
+                    </div>
+                  </div>
                 </div>
+
                 <div id="tab3" class="tab">
                   <p>Etiam non interdum erat...</p>
                   <p>Duis ac semper risus. Suspendisse...</p>
@@ -86,14 +94,13 @@
               </div>
             </div>
 
-            <div class="playPanel" hidden>
+            <div class="playPanel">
               <a @click="loopPlay()" :class="'iconfont ' + icon_loop_state + ' small'"></a>
               <a @click="prePlay()" class="iconfont icon-pre normal"></a>
-              <a @click="pausePlay()" :class="'iconfont ' + paly_state + ' large'"></a>
+              <a @click="pausePlay()" :class="'iconfont ' + play_state + ' large'"></a>
               <a @click="nextPlay()" class="iconfont icon-next normal"></a>
               <a @click="mark()" :class="'iconfont ' + icon_mark_state + ' small'"></a>
             </div>
-
             <audio :src="url" ref="player" v-model="url" :loop="loop" autoplay></audio>
             <!-- <audio :src="url" ref="player" v-model="url" :loop="loop" :ended="test('ended')" autoplay controls></audio> -->
 
@@ -112,11 +119,12 @@
 export default {
   data() {
     return {
+      app: null,
       url: '', // 当前正在播放的资源，修改该资源即可播放，因为加了 autoplay 属性
       player: '', // audio Dom
-      playIndex: 0, // 播放歌曲下标
+      playIndex: null, // 播放歌曲下标
       loop: false, // 默认不循环
-      paly_state: 'icon-play', // 播放暂停的样式，默认播放状态
+      play_state: 'icon-play', // 播放暂停的样式，默认播放状态
       icon_mark_state: 'icon-mark', // 收藏样式，默认不收藏
       icon_loop_state: 'icon-order', // 是否循环，默认顺序
       playPanelHeight: {
@@ -226,10 +234,13 @@ export default {
   methods: {
     // note:点击列表播放，播放暂停，上一首，下一首
     manualPlay(index) {
-      console.log(index)
-      this.url = this.list[index].url
-      this.playIndex = index
-      this.paly_state = 'icon-pause'
+      if (this.playIndex === index) {
+        this.pausePlay()
+      } else {
+        this.playIndex = index
+        this.url = this.list[index].url
+        this.play_state = 'icon-pause'
+      }
     },
     onRefresh() {
       console.log('onRefresh')
@@ -238,29 +249,29 @@ export default {
       this.url = this.list[this.playIndex].url
       // 安卓状态为4
       // console.log(this.player.readyState)
-      if (this.player.paused && this.player.readyState === 4) {
-        this.player
-          .play()
-          .then(() => {
-            this.paly_state = 'icon-pause'
-          })
-          .catch(err => {
-            console.log(err)
-          })
+      if (this.player.paused) {
+        this.play_state = 'icon-pause'
+        if (this.player.readyState === 4) {
+          this.player.play()
+        }
       } else {
         this.player.pause()
-        this.paly_state = 'icon-play'
+        this.play_state = 'icon-play'
       }
     },
     prePlay() {
-      this.playIndex =
+      let preIndex =
         this.playIndex === 0 ? this.list.length - 1 : this.playIndex - 1
-      this.manualPlay(this.playIndex)
+      this.url = this.list[preIndex].url
+      
+      // this.manualPlay(this.playIndex)
     },
     nextPlay() {
-      this.playIndex =
+      let nextIndex =
         this.playIndex === this.list.length - 1 ? 0 : this.playIndex + 1
-      this.manualPlay(this.playIndex)
+      // this.manualPlay(this.playIndex)
+      this.url = this.list[nextIndex].url
+      
     },
 
     loopPlay() {
@@ -291,6 +302,28 @@ export default {
         },
         false
       )
+      // let app = new Framework7()
+
+      this.$refs.ac.addEventListener('click', () => {
+        var buttons = [
+          {
+            label: true,
+            text: "<p style='font-size:20px'>确定删除该首歌曲<p>",
+            color: 'black'
+          },
+          {
+            text: '确定',
+            onClick: () => {
+              console.log('sure')
+            }
+          },
+          {
+            text: '取消',
+            color: 'red'
+          }
+        ]
+        this.app.actions(buttons)
+      })
     },
 
     mark() {
@@ -314,7 +347,27 @@ export default {
       }
     },
     deleteItem(index) {
-      this.list.splice(index, 1)
+      var buttons = [
+        {
+          label: true,
+          text: "<p style='font-size:20px'>确定删除该首歌曲<p>",
+          color: 'black'
+        },
+        {
+          text: '确定',
+          onClick: () => {
+            if (!this.player.paused) {
+              this.nextPlay()
+            }
+            this.list.splice(index, 1)
+          }
+        },
+        {
+          text: '取消',
+          color: 'red'
+        }
+      ]
+      this.app.actions(buttons)
     },
     test(test) {
       if (this.player.readyState === 4) {
@@ -323,6 +376,7 @@ export default {
   },
   mounted() {
     this.player = this.$refs.player
+    this.app = new Framework7()
     this.playControl()
   }
 }
