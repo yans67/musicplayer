@@ -94,14 +94,14 @@
               </div>
             </div>
 
-            <div class="playPanel">
+            <!-- <div class="playPanel">
               <a @click="loopPlay()" :class="'iconfont ' + icon_loop_state + ' small'"></a>
               <a @click="prePlay()" class="iconfont icon-pre normal"></a>
               <a @click="pausePlay()" :class="'iconfont ' + play_state + ' large'"></a>
               <a @click="nextPlay()" class="iconfont icon-next normal"></a>
               <a @click="mark()" :class="'iconfont ' + icon_mark_state + ' small'"></a>
-            </div>
-            <audio :src="url" ref="player" v-model="url" :loop="loop" autoplay></audio>
+            </div> -->
+            <audio :src="url" ref="player" v-model="url" :loop="loop" controls></audio>
             <!-- <audio :src="url" ref="player" v-model="url" :loop="loop" :ended="test('ended')" autoplay controls></audio> -->
 
             <!-- pages end -->
@@ -233,14 +233,36 @@ export default {
   },
   methods: {
     // note:点击列表播放，播放暂停，上一首，下一首
+    // test(index){
+    //   new Promise((resovle,reject) => {
+    //     this.url = this.list[index].url
+
+    //   })
+    // },
     manualPlay(index) {
-      if (this.playIndex === index) {
-        this.pausePlay()
-      } else {
-        this.playIndex = index
-        this.url = this.list[index].url
-        this.play_state = 'icon-pause'
+      this.url = this.list[index].url
+      this.player.load()
+      this.player.addEventListener('canplay', () => {
+        alert('canplay')
+        if (this.player.readyState > 2) {
+          alert('异步 2 '+ this.player.readyState)
+          this.player.play()
+       
+          
+        }
+      })
+      if (this.player.readyState > 2) {
+        alert('同步 2 ' + this.player.readyState)
+        this.player.play()
       }
+
+      // if (this.playIndex === index) {
+      //   this.pausePlay()
+      // } else {
+      //   this.playIndex = index
+      //   this.url = this.list[index].url
+      //   this.play_state = 'icon-pause'
+      // }
     },
     onRefresh() {
       console.log('onRefresh')
@@ -251,7 +273,7 @@ export default {
       // console.log(this.player.readyState)
       if (this.player.paused) {
         this.play_state = 'icon-pause'
-        if (this.player.readyState === 4) {
+        if (this.player.readyState > 2) {
           this.player.play()
         }
       } else {
@@ -263,7 +285,7 @@ export default {
       let preIndex =
         this.playIndex === 0 ? this.list.length - 1 : this.playIndex - 1
       this.url = this.list[preIndex].url
-      
+
       // this.manualPlay(this.playIndex)
     },
     nextPlay() {
@@ -271,7 +293,6 @@ export default {
         this.playIndex === this.list.length - 1 ? 0 : this.playIndex + 1
       // this.manualPlay(this.playIndex)
       this.url = this.list[nextIndex].url
-      
     },
 
     loopPlay() {
