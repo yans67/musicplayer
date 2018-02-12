@@ -9,9 +9,9 @@
           <div style="height:0px" class="navbar-inner">
             <div class="subnavbar music-nav">
               <div class="buttons-row">
-                <a href="#tab1" class="button tab-link active">1</a>
-                <a href="#tab2" class="button tab-link">2</a>
-                <a href="#tab3" class="button tab-link">3</a>
+                <a href="#tab1" class="button tab-link active">歌曲</a>
+                <a href="#tab2" class="button tab-link">歌手</a>
+                <a href="#tab3" class="button tab-link">收藏</a>
               </div>
             </div>
           </div>
@@ -94,14 +94,14 @@
               </div>
             </div>
 
-            <!-- <div class="playPanel">
+            <div class="playPanel">
               <a @click="loopPlay()" :class="'iconfont ' + icon_loop_state + ' small'"></a>
               <a @click="prePlay()" class="iconfont icon-pre normal"></a>
               <a @click="pausePlay()" :class="'iconfont ' + play_state + ' large'"></a>
               <a @click="nextPlay()" class="iconfont icon-next normal"></a>
               <a @click="mark()" :class="'iconfont ' + icon_mark_state + ' small'"></a>
-            </div> -->
-            <audio :src="url" ref="player" v-model="url" :loop="loop" controls></audio>
+            </div>
+            <audio :src="url" ref="player" v-model="url" :loop="loop"></audio>
             <!-- <audio :src="url" ref="player" v-model="url" :loop="loop" :ended="test('ended')" autoplay controls></audio> -->
 
             <!-- pages end -->
@@ -122,7 +122,7 @@ export default {
       app: null,
       url: '', // 当前正在播放的资源，修改该资源即可播放，因为加了 autoplay 属性
       player: '', // audio Dom
-      playIndex: null, // 播放歌曲下标
+      playIndex: -1, // 播放歌曲下标
       loop: false, // 默认不循环
       play_state: 'icon-play', // 播放暂停的样式，默认播放状态
       icon_mark_state: 'icon-mark', // 收藏样式，默认不收藏
@@ -241,20 +241,29 @@ export default {
     // },
     manualPlay(index) {
       this.url = this.list[index].url
-      this.player.load()
-      this.player.addEventListener('canplay', () => {
-        alert('canplay')
-        if (this.player.readyState > 2) {
-          alert('异步 2 '+ this.player.readyState)
+      // 切换歌曲重新加载资源
+      if (this.playIndex != index) {
+        this.player.load()
+        // 加载资源后，判断状态是否可以播放
+        this.player.addEventListener('canplay', () => {
+          if (this.player.readyState > 2) {
+            this.player.play()
+            this.playIndex = index
+          }
+        })
+      } else {
+        if (this.player.paused) {
           this.player.play()
-       
-          
+          // 暂停歌曲
+        } else {
+          this.player.pause()
         }
-      })
-      if (this.player.readyState > 2) {
-        alert('同步 2 ' + this.player.readyState)
-        this.player.play()
       }
+
+      // if (this.player.readyState > 2) {
+      //   alert('同步 2 ' + this.player.readyState)
+      //   this.player.play()
+      // }
 
       // if (this.playIndex === index) {
       //   this.pausePlay()
