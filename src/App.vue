@@ -26,7 +26,7 @@
                 <div id="tab1" class="tab active">
                   <div class="list-block contacts-block">
                     <ul>
-                      <a @click.stop="manualPlay(index)" class="item-link item-content" v-for="(item,index) in list" :key="index">
+                      <a @click.stop="executePlay(index)" class="item-link item-content" v-for="(item,index) in list" :key="index">
                         <div class="item-media">
                           <img class="music-singer-icon" :src="item.image">
                           </img>
@@ -94,6 +94,7 @@
               </div>
             </div>
 
+            <audio :src="url" ref="player" v-model="url" :loop="loop" controls></audio>
             <div class="playPanel">
               <a @click="loopPlay()" :class="'iconfont ' + icon_loop_state + ' small'"></a>
               <a @click="prePlay()" class="iconfont icon-pre normal"></a>
@@ -101,9 +102,7 @@
               <a @click="nextPlay()" class="iconfont icon-next normal"></a>
               <a @click="mark()" :class="'iconfont ' + icon_mark_state + ' small'"></a>
             </div>
-            <audio :src="url" ref="player" v-model="url" :loop="loop"></audio>
             <!-- <audio :src="url" ref="player" v-model="url" :loop="loop" :ended="test('ended')" autoplay controls></audio> -->
-
             <!-- pages end -->
           </div>
         </div>
@@ -116,6 +115,7 @@
 </template>
 
 <script>
+import Utils from './utils/index.js'
 export default {
   data() {
     return {
@@ -145,13 +145,13 @@ export default {
             'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
         },
         {
-          name: '那就这样吧',
+          name: '白昼之夜',
           url: 'http://oc1475jft.bkt.clouddn.com/baizhouzhiye.mp3',
           image:
             'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
         },
         {
-          name: '骄傲的少年',
+          name: '告白气球',
           url: 'http://oc1475jft.bkt.clouddn.com/gaobaiqiqiu.mp3',
           image:
             'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
@@ -169,13 +169,13 @@ export default {
             'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
         },
         {
-          name: '那就这样吧',
+          name: '白昼之夜',
           url: 'http://oc1475jft.bkt.clouddn.com/baizhouzhiye.mp3',
           image:
             'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
         },
         {
-          name: '骄傲的少年',
+          name: '告白气球',
           url: 'http://oc1475jft.bkt.clouddn.com/gaobaiqiqiu.mp3',
           image:
             'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
@@ -193,13 +193,13 @@ export default {
             'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
         },
         {
-          name: '那就这样吧',
+          name: '白昼之夜',
           url: 'http://oc1475jft.bkt.clouddn.com/baizhouzhiye.mp3',
           image:
             'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
         },
         {
-          name: '骄傲的少年',
+          name: '告白气球',
           url: 'http://oc1475jft.bkt.clouddn.com/gaobaiqiqiu.mp3',
           image:
             'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
@@ -217,13 +217,13 @@ export default {
             'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
         },
         {
-          name: '那就这样吧',
+          name: '白昼之夜',
           url: 'http://oc1475jft.bkt.clouddn.com/baizhouzhiye.mp3',
           image:
             'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
         },
         {
-          name: '骄傲的少年',
+          name: '告白气球',
           url: 'http://oc1475jft.bkt.clouddn.com/gaobaiqiqiu.mp3',
           image:
             'http://p1.music.126.net/ddhcDeGSl9VhXJLfOsNDEA==/3433774824740403.jpg'
@@ -232,14 +232,7 @@ export default {
     }
   },
   methods: {
-    // note:点击列表播放，播放暂停，上一首，下一首
-    // test(index){
-    //   new Promise((resovle,reject) => {
-    //     this.url = this.list[index].url
-
-    //   })
-    // },
-    manualPlay(index) {
+    executePlay(index) {
       this.url = this.list[index].url
       // 切换歌曲重新加载资源
       if (this.playIndex != index) {
@@ -249,75 +242,47 @@ export default {
           if (this.player.readyState > 2) {
             this.player.play()
             this.playIndex = index
+            this.play_state = 'icon-pause'
           }
         })
       } else {
         if (this.player.paused) {
           this.player.play()
+          this.play_state = 'icon-pause'
+
           // 暂停歌曲
         } else {
           this.player.pause()
+          this.play_state = 'icon-play'
+          console.log('播放，删除，暂停')
         }
       }
-
-      // if (this.player.readyState > 2) {
-      //   alert('同步 2 ' + this.player.readyState)
-      //   this.player.play()
-      // }
-
-      // if (this.playIndex === index) {
-      //   this.pausePlay()
-      // } else {
-      //   this.playIndex = index
-      //   this.url = this.list[index].url
-      //   this.play_state = 'icon-pause'
-      // }
     },
     onRefresh() {
       console.log('onRefresh')
     },
     pausePlay() {
-      this.url = this.list[this.playIndex].url
-      // 安卓状态为4
-      // console.log(this.player.readyState)
-      if (this.player.paused) {
-        this.play_state = 'icon-pause'
-        if (this.player.readyState > 2) {
-          this.player.play()
-        }
-      } else {
-        this.player.pause()
-        this.play_state = 'icon-play'
-      }
+      // 默认播放第一首
+      this.playIndex === -1
+        ? this.executePlay(0)
+        : this.executePlay(this.playIndex)
     },
     prePlay() {
-      let preIndex =
-        this.playIndex === 0 ? this.list.length - 1 : this.playIndex - 1
-      this.url = this.list[preIndex].url
-
-      // this.manualPlay(this.playIndex)
+      if (this.icon_loop_state === 'icon-random') {
+        this.randomPlay()
+      } else {
+        let preIndex =
+          this.playIndex === 0 ? this.list.length - 1 : this.playIndex - 1
+        this.executePlay(preIndex)
+      }
     },
     nextPlay() {
-      let nextIndex =
-        this.playIndex === this.list.length - 1 ? 0 : this.playIndex + 1
-      // this.manualPlay(this.playIndex)
-      this.url = this.list[nextIndex].url
-    },
-
-    loopPlay() {
-      this.loop = false
-      if (this.icon_loop_state === 'icon-order') {
-        this.icon_loop_state = 'icon-loop'
-        this.loop = true
-        return
-      }
-      if (this.icon_loop_state === 'icon-loop') {
-        this.icon_loop_state = 'icon-random'
-        return
-      }
       if (this.icon_loop_state === 'icon-random') {
-        this.icon_loop_state = 'icon-order'
-        return
+        this.randomPlay()
+      } else {
+        let nextIndex =
+          this.playIndex === this.list.length - 1 ? 0 : this.playIndex + 1
+        this.executePlay(nextIndex)
       }
     },
     // 播放控制，监听随机、顺序、重复的播放顺序
@@ -327,56 +292,41 @@ export default {
         () => {
           if (this.icon_loop_state === 'icon-order') {
             this.nextPlay()
-          } else if (this.icon_loop_state === 'icon-order') {
+          } else if (this.icon_loop_state === 'icon-random') {
+            this.randomPlay()
+          } else {
+            this.loop = true
           }
         },
         false
       )
-      // let app = new Framework7()
-
-      this.$refs.ac.addEventListener('click', () => {
-        var buttons = [
-          {
-            label: true,
-            text: "<p style='font-size:20px'>确定删除该首歌曲<p>",
-            color: 'black'
-          },
-          {
-            text: '确定',
-            onClick: () => {
-              console.log('sure')
-            }
-          },
-          {
-            text: '取消',
-            color: 'red'
-          }
-        ]
-        this.app.actions(buttons)
-      })
     },
-
+    loopPlay() {
+      this.loop = false
+      if (this.icon_loop_state === 'icon-order') {
+        this.icon_loop_state = 'icon-loop'
+        this.loop = true
+      } else if (this.icon_loop_state === 'icon-loop') {
+        this.icon_loop_state = 'icon-random'
+      } else {
+        this.icon_loop_state = 'icon-order'
+      }
+      this.playControl()
+    },
+    // 收藏
     mark() {
       console.log('mark')
       this.icon_mark_state =
         this.icon_mark_state === 'icon-mark' ? 'icon-marked' : 'icon-mark'
     },
-    randomPlay() {},
-    //生成从minNum到maxNum的随机数
-    randomNum(minNum, maxNum) {
-      switch (arguments.length) {
-        case 1:
-          return parseInt(Math.random() * minNum + 1, 10)
-          break
-        case 2:
-          return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10)
-          break
-        default:
-          return 0
-          break
-      }
+
+    randomPlay() {
+      let random = Utils.randomNum(0, this.list.length)
+      this.executePlay(random)
     },
+
     deleteItem(index) {
+      let self = this
       var buttons = [
         {
           label: true,
@@ -386,10 +336,10 @@ export default {
         {
           text: '确定',
           onClick: () => {
+            self.list.splice(index, 1)
             if (!this.player.paused) {
-              this.nextPlay()
+              self.executePlay(index)
             }
-            this.list.splice(index, 1)
           }
         },
         {
@@ -397,11 +347,7 @@ export default {
           color: 'red'
         }
       ]
-      this.app.actions(buttons)
-    },
-    test(test) {
-      if (this.player.readyState === 4) {
-      }
+      self.app.actions(buttons)
     }
   },
   mounted() {
